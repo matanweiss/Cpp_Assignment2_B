@@ -1,5 +1,22 @@
 #include "player.hpp"
 
-int Player::stacksize() { return 0; }
-int Player::cardesTaken() { return 0; }
-Player::Player(std::string) {}
+Player::Player(std::string name)
+{
+    cardsWon = 0;
+    this->name = name;
+}
+
+int Player::stacksize()
+{
+    return cards.size();
+}
+
+int Player::cardesTaken()
+{
+    return cardsWon;
+}
+
+void Player::setCards(std::vector<Card> &cards)
+{
+    this->cards = cards;
+}

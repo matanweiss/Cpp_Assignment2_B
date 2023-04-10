@@ -1,16 +1,11 @@
 #include "game.hpp"
-#include <array>
-#include <vector>
-#include <random>
-#include <iostream>
 
-Game::Game(Player p1, Player p2)
+Game::Game(Player &p1, Player &p2) : p1(p1), p2(p2)
 {
     std::array<int, 13> numbers;
     numbers.fill(4);
     std::vector<Card> cardsP1;
     std::vector<Card> cardsP2;
-    bool isP1 = true;
     int cardsDivided = 0;
     std::random_device dev;
     std::mt19937 rng(dev());
@@ -22,24 +17,15 @@ Game::Game(Player p1, Player p2)
         {
             Card toDivide(currentNumber + 1, numbers.at(currentNumber) - 1);
             numbers.at(currentNumber)--;
-            if (isP1)
+            if (cardsDivided % 2 == 0)
                 cardsP1.push_back(toDivide);
             else
                 cardsP2.push_back(toDivide);
-            isP1 = !isP1;
             cardsDivided++;
         }
     }
-    std::cout << "p1:" << std::endl;
-    for (Card &c : cardsP1)
-    {
-        std::cout << c.toString() << std::endl;
-    }
-    std::cout << "p2:" << std::endl;
-    for (Card &c : cardsP2)
-    {
-        std::cout << c.toString() << std::endl;
-    }
+    p1.setCards(cardsP1);
+    p2.setCards(cardsP2);
 }
 
 void Game::playTurn() {}
