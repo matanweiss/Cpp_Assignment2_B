@@ -1,8 +1,12 @@
+#pragma once
+#include <string>
 class Card
 {
     int number;
+    std::string name;
 
-private:
-    Card(int);
+public:
+    Card(int, int);
     int compareTo(Card);
+    std::string toString();
 };
