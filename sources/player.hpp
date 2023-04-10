@@ -14,4 +14,7 @@ public:
     int stacksize();
     int cardesTaken();
     void setCards(std::vector<Card> &);
+    Card &pullCard();
+    void addCardsWon(int);
+    std::string getName();
 };
