@@ -9,6 +9,8 @@ Game::Game(Player &p1, Player &p2) : p1(p1), p2(p2)
     draws = 0;
     winsP1 = 0;
     winsP2 = 0;
+
+    // creating and dividing the cards
     std::array<int, 13> numbers;
     numbers.fill(4);
     std::vector<Card> cardsP1;
@@ -46,6 +48,7 @@ void Game::playTurn()
 
 void Game::playTurnRecursive(int amount, std::string str)
 {
+    // if the game has ended
     if (p1.stacksize() == 0)
     {
         p1.addCardsWon(amount / 2);
@@ -54,11 +57,14 @@ void Game::playTurnRecursive(int amount, std::string str)
         p2.setIsPlaying(false);
         return;
     }
+
     Card cardP1 = p1.pullCard();
     Card cardP2 = p2.pullCard();
     amount += 2;
     str += p1.getName() + " played " + cardP1.toString() + " " + p2.getName() + " played " + cardP2.toString() + ". ";
     int result = cardP1.compareTo(cardP2);
+
+    // if there is a draw
     if (result == 0)
     {
         draws += 1;
@@ -69,6 +75,8 @@ void Game::playTurnRecursive(int amount, std::string str)
         p2.pullCard();
         playTurnRecursive(amount + 2, str);
     }
+
+    // player 1 wins
     else if (0 < result)
     {
         winsP1 += 1;
@@ -76,6 +84,8 @@ void Game::playTurnRecursive(int amount, std::string str)
         turns.push_back(str);
         p1.addCardsWon(amount);
     }
+
+    // player 2 wins
     else
     {
         winsP2 += 1;
