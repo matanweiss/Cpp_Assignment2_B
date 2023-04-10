@@ -11,6 +11,9 @@ private:
     Player &p1;
     Player &p2;
     std::vector<std::string> turns;
+    size_t winsP1;
+    size_t winsP2;
+    size_t draws;
 
 public:
     void playTurn();

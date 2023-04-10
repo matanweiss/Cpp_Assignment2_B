@@ -2,6 +2,9 @@
 
 Game::Game(Player &p1, Player &p2) : p1(p1), p2(p2)
 {
+    draws = 0;
+    winsP1 = 0;
+    winsP2 = 0;
     std::array<int, 13> numbers;
     numbers.fill(4);
     std::vector<Card> cardsP1;
@@ -48,6 +51,7 @@ void Game::playTurnRecursive(int amount, std::string str)
     int result = cardP1.compareTo(cardP2);
     if (result == 0)
     {
+        draws += 1;
         str += "draw. ";
         if (p1.stacksize() == 0)
             return;
@@ -57,12 +61,14 @@ void Game::playTurnRecursive(int amount, std::string str)
     }
     else if (0 < result)
     {
+        winsP1 += 1;
         str += p1.getName() + " wins.";
         turns.push_back(str);
         p1.addCardsWon(amount);
     }
     else
     {
+        winsP2 += 1;
         str += p2.getName() + " wins.";
         turns.push_back(str);
         p2.addCardsWon(amount);
@@ -80,8 +86,34 @@ void Game::playAll()
         playTurn();
 }
 
-void Game::printWiner() {}
+void Game::printWiner()
+{
+    if (p1.stacksize() != 0)
+        std::cout << "the game has not ended yet" << std::endl;
+    if (p1.cardesTaken() == p2.cardesTaken())
+        std::cout << "there is a tie" << std::endl;
+    else if (p1.cardesTaken() < p2.cardesTaken())
+        std::cout << p2.getName() + " won" << std::endl;
+    else
+        std::cout << p1.getName() + " won" << std::endl;
+}
 
-void Game::printLog() {}
+void Game::printLog()
+{
+    for (auto &turn : turns)
+    {
+        std::cout << turn << std::endl;
+    }
+}
 
-void Game::printStats() {}
+void Game::printStats()
+{
+    std::cout << p1.getName() + ": ";
+    std::cout << "win rate - " + std::to_string((float)winsP1 / turns.size()) + ", ";
+    std::cout << "cards won - " + std::to_string(p1.cardesTaken()) << std::endl;
+    std::cout << p2.getName() + ": ";
+    std::cout << "win rate - " + std::to_string((float)winsP2 / turns.size()) + ", ";
+    std::cout << "cards won - " + std::to_string(p2.cardesTaken()) << std::endl;
+    std::cout << "draws amount: " + std::to_string(draws) << std::endl;
+    std::cout << "draw rate: " + std::to_string((float)draws / turns.size()) << std::endl;
+}
