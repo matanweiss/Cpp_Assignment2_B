@@ -2,6 +2,10 @@
 
 Game::Game(Player &p1, Player &p2) : p1(p1), p2(p2)
 {
+    if (p1.getIsPlaying() || p2.getIsPlaying())
+        throw std::runtime_error("a player is already playing another game");
+    p1.setIsPlaying(true);
+    p2.setIsPlaying(true);
     draws = 0;
     winsP1 = 0;
     winsP2 = 0;
@@ -33,6 +37,10 @@ Game::Game(Player &p1, Player &p2) : p1(p1), p2(p2)
 
 void Game::playTurn()
 {
+    if (&p1 == &p2)
+        throw std::invalid_argument("a player can't play agains himself");
+    if (p1.stacksize() == 0)
+        throw std::runtime_error("the game has already ended");
     playTurnRecursive(0, "");
 }
 
@@ -42,6 +50,8 @@ void Game::playTurnRecursive(int amount, std::string str)
     {
         p1.addCardsWon(amount / 2);
         p2.addCardsWon(amount / 2);
+        p1.setIsPlaying(false);
+        p2.setIsPlaying(false);
         return;
     }
     Card cardP1 = p1.pullCard();
@@ -114,6 +124,6 @@ void Game::printStats()
     std::cout << p2.getName() + ": ";
     std::cout << "win rate - " + std::to_string((float)winsP2 / turns.size()) + ", ";
     std::cout << "cards won - " + std::to_string(p2.cardesTaken()) << std::endl;
+    std::cout << "draw rate: " + std::to_string((float)draws / turns.size()) + ", ";
     std::cout << "draws amount: " + std::to_string(draws) << std::endl;
-    std::cout << "draw rate: " + std::to_string((float)draws / turns.size()) << std::endl;
 }

@@ -8,6 +8,7 @@ class Player
     int cardsWon;
     std::string name;
     std::vector<Card> cards;
+    bool isPlaying;
 
 public:
     Player(std::string);
@@ -17,4 +18,6 @@ public:
     Card &pullCard();
     void addCardsWon(int);
     std::string getName();
+    void setIsPlaying(bool);
+    bool getIsPlaying();
 };

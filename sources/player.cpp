@@ -4,6 +4,7 @@ Player::Player(std::string name)
 {
     cardsWon = 0;
     this->name = name;
+    isPlaying = false;
 }
 
 int Player::stacksize()
@@ -36,4 +37,14 @@ void Player::addCardsWon(int amount)
 std::string Player::getName()
 {
     return name;
+}
+
+void Player::setIsPlaying(bool state)
+{
+    isPlaying = state;
+}
+
+bool Player::getIsPlaying()
+{
+    return isPlaying;
 }
